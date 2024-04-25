@@ -1,13 +1,16 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+const db = require('./db');
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+app.get("/", async (req: Request, res: Response) => {
+ 
+  const result = await db.query('SELECT * FROM menu');
+    res.json(result.rows);
 });
 
 app.listen(port, () => {
