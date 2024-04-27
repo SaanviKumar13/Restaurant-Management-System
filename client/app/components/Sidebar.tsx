@@ -1,3 +1,4 @@
+import { useLocation } from "@remix-run/react";
 import {
   AreaChart,
   BookOpenText,
@@ -9,7 +10,6 @@ import {
   UserCog,
   UsersRound,
 } from "lucide-react";
-import { useRouter } from "next/router";
 
 const links = [
   { name: "Home", href: "/", logo: <Home className="text-purple-200" /> },
@@ -56,11 +56,10 @@ const links = [
 ];
 
 const Sidebar = () => {
-  const router = useRouter();
-
-  // Define a function to determine if a link is active
+  let location = useLocation();
+  const pathname = location.pathname;
   const isActive = (href: string) => {
-    return router.pathname === href;
+    return pathname === href;
   };
 
   return (
