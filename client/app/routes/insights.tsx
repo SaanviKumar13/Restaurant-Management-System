@@ -1,4 +1,4 @@
-import MenuTable from "@/components/MenuTable";
+import MenuTable from "@/components/Menu/MenuTable";
 import { fetchMenu } from "@/utils/api.server";
 import { LoaderFunction, json, type MetaFunction } from "@remix-run/node";
 

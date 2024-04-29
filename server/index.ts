@@ -13,8 +13,8 @@ app.use(express.json());
 
 const menuSchema = z.object({
   description: z.string(),
-  mealType: z.string(),
-  itemName: z.string(),
+  meal_type: z.string(),
+  item_name: z.string(),
   price: z.number(),
 });
 
@@ -37,9 +37,9 @@ app.get("/api/menu", async (req: Request, res: Response) => {
 });
 
 app.post("/api/menu/add", async (req: Request, res: Response) => {
-  const { description, mealType, itemName, price } = req.body;
+  const { description, meal_type, item_name, price } = req.body;
   try {
-    await query('INSERT INTO menu (description, meal_type, item_name, price) VALUES ($1, $2, $3, $4)', [description, mealType, itemName, price]);
+    await query('INSERT INTO menu (description, meal_type, item_name, price) VALUES ($1, $2, $3, $4)', [description, meal_type, item_name, price]);
     res.status(201).json({ message: 'Menu item added successfully' });
   } catch (error:any) {
     res.status(500).json({ error: error.message });
@@ -48,9 +48,9 @@ app.post("/api/menu/add", async (req: Request, res: Response) => {
 
 app.put("/api/menu/:id", validateMenuSchema, async (req: Request, res: Response) => {
   const id = req.params.id;
-  const { description, mealType, itemName, price } = req.body;
+  const { description, meal_type, item_name, price } = req.body;
   try {
-    await query('UPDATE menu SET description = $1, meal_type = $2, item_name = $3, price = $4 WHERE menu_id = $5', [description, mealType, itemName, price, id]);
+    await query('UPDATE menu SET description = $1, meal_type = $2, item_name = $3, price = $4 WHERE menu_id = $5', [description, meal_type, item_name, price, id]);
     res.status(200).json({ message: 'Menu item updated successfully' });
   } catch (error:any) {
     res.status(500).json({ error: error.message });

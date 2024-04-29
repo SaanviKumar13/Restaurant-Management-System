@@ -8,6 +8,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useLoaderData } from "@remix-run/react";
+import { Button } from "../ui/button";
+import { Delete } from "lucide-react";
+import { Input } from "../ui/input";
 type MenuItem = {
   menu_id: number;
   description: string;
@@ -20,7 +23,7 @@ function MenuTable() {
   const itemsRes = useLoaderData<any>();
   const items = itemsRes.menu;
   return (
-    <Table className="text-black w-[60vw] mx-auto mt-10">
+    <Table className="w-[40vw] mt-10">
       <TableCaption>Diner Menu.</TableCaption>
       <TableHeader>
         <TableRow>
@@ -37,6 +40,25 @@ function MenuTable() {
             <TableCell>{item.description}</TableCell>
             <TableCell>{item.meal_type}</TableCell>
             <TableCell className="text-right">{item.price}</TableCell>
+            <TableCell>
+              <form action="/menu" method="post">
+                <Button
+                  name="_action"
+                  type="submit"
+                  value="deleteitem"
+                  className="text-purple-500 ml-2"
+                >
+                  <Delete />
+                  <Input
+                    type="_id"
+                    name="_id"
+                    value={item.menu_id}
+                    className="m-2 w-48 hidden"
+                    readOnly
+                  />
+                </Button>
+              </form>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

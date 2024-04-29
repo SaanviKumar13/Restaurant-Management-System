@@ -52,9 +52,9 @@ export async function updateMenuItem(id: any, menuItem: any) {
 }
 
 // Function to delete a menu item
-export async function deleteMenuItem(id: any) {
+export async function deleteMenuItem(_id: any) {
   try {
-    const response = await fetch(`${apiUrl}/api/menu/${id}`, {
+    const response = await fetch(`${apiUrl}/api/menu/${_id}`, {
       method: 'DELETE',
     });
     if (!response.ok) {
