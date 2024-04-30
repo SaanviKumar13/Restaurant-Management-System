@@ -1,7 +1,16 @@
+import InventoryForm from "@/components/Inventory/InventoryForm";
+import InventoryTable from "@/components/Inventory/InventoryTable";
 import MenuForm from "@/components/Menu/EditMenu";
 import MenuTable from "@/components/Menu/MenuTable";
 import { toast } from "@/components/ui/use-toast";
-import { addMenuItem, deleteMenuItem, fetchMenu } from "@/utils/api.server";
+import {
+  addInventory,
+  addMenuItem,
+  deleteInventory,
+  deleteMenuItem,
+  fetchInventory,
+  fetchMenu,
+} from "@/utils/api.server";
 import {
   ActionFunction,
   LoaderFunction,
@@ -24,7 +33,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  const res = await fetchMenu();
+  const res = await fetchInventory();
   return json({ menu: res });
 };
 
@@ -35,13 +44,17 @@ export const action: ActionFunction = async ({ request }) => {
     case "additem": {
       const body = Object.fromEntries(formData.entries());
       const { _action, ...newBody } = body;
-      const res = await addMenuItem(newBody);
-      return json({ message: res.message });
+      const transformedBody = {
+        ...newBody,
+        unit_price: Number(newBody.unit_price),
+      };
+      const res = await addInventory(transformedBody);
+      return json({ message: res?.message });
     }
     case "deleteitem": {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
-      const res = await deleteMenuItem(_id);
+      const res = await deleteInventory(_id);
       return json({ message: res?.message });
     }
 
@@ -67,8 +80,8 @@ export default function Inventory() {
   return (
     <div className="font-sans bg-[#1d212c] w-screen">
       <div className="flex flex-row justify-around mx-10">
-        <MenuTable />
-        <MenuForm />
+        <InventoryTable />
+        <InventoryForm />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import type { MetaFunction } from "@remix-run/node";
 export const meta: MetaFunction = () => {
   return [
     { title: "Diner" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Restaurant Management System for DBMS " },
   ];
 };
 

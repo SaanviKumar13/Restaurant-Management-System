@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 import stylesheet from "./globals.css";
 import Sidebar from "./components/Sidebar";
+import { Toaster } from "./components/ui/toaster";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
@@ -22,6 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Toaster />
         <div className="flex flex-row">
           <Sidebar />
           {children}

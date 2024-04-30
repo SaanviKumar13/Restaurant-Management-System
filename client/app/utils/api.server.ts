@@ -24,9 +24,9 @@ export async function addMenuItem(menuItem: any) {
       body: JSON.stringify(menuItem),
     });
     if (!response.ok) {
-      throw new Error('Failed to add menu item');
+      return {message:"Issue Adding Item. Try again."};
     }
-    return await response.json();
+    return {message:"Item Added Successfully"};
   } catch (error) {
     console.error('Error adding menu item:', error);
   }
@@ -58,7 +58,7 @@ export async function deleteMenuItem(_id: any) {
       method: 'DELETE',
     });
     if (!response.ok) {
-      throw new Error('Failed to delete menu item');
+     return {message:'Failed to delete menu item'};
     }
     return { message: 'Menu item deleted successfully' };
   } catch (error) {
@@ -234,9 +234,9 @@ export async function fetchTables() {
         body: JSON.stringify(reservation),
       });
       if (!response.ok) {
-        throw new Error('Failed to add reservation');
+        return {message:'Failed to add reservation'};
       }
-      return await response.json();
+      return {message:"Reservation Added Successfully."};
     } catch (error) {
       console.error('Error adding reservation:', error);
     }

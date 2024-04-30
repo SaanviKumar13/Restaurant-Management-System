@@ -1,7 +1,7 @@
-import MenuForm from "@/components/Menu/EditMenu";
-import MenuTable from "@/components/Menu/MenuTable";
+import OrderForm from "@/components/Orders/AddOrder";
+import OrderTable from "@/components/Orders/OrderTable";
 import { toast } from "@/components/ui/use-toast";
-import { addMenuItem, deleteMenuItem, fetchMenu } from "@/utils/api.server";
+import { addOrder, deleteOrder, fetchOrders } from "@/utils/api.server";
 import {
   ActionFunction,
   LoaderFunction,
@@ -24,24 +24,52 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  const res = await fetchMenu();
+  const res = await fetchOrders();
   return json({ menu: res });
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const _action = formData.get("_action");
+
   switch (_action) {
     case "additem": {
       const body = Object.fromEntries(formData.entries());
-      const { _action, ...newBody } = body;
-      const res = await addMenuItem(newBody);
-      return json({ message: res.message });
+      const { customer_name, total_price, status, ...rest } = body;
+
+      // Filter out keys related to items
+      const itemKeys = Object.keys(rest).filter((key) =>
+        key.startsWith("item_name")
+      );
+
+      // Get the number of items
+      const itemCount = itemKeys.length;
+
+      // Map each item to match the expected format and push into an array
+      const transformedItems = [...Array(itemCount)].map((_, index) => ({
+        item_name: body[`item_name_${index}`],
+        price: Number(body[`price_${index}`]),
+        quantity: Number(body[`quantity_${index}`]),
+      }));
+
+      // Merge transformed items array with the rest of the data
+      const transformedBody = {
+        customer_name: customer_name,
+        total_price: Number(total_price),
+        status: status,
+        items: transformedItems, // Assuming transformedItems is already correctly defined
+      };
+
+      console.log(transformedBody);
+
+      const res = await addOrder(transformedBody);
+      return json({ message: res?.message });
     }
+
     case "deleteitem": {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
-      const res = await deleteMenuItem(_id);
+      const res = await deleteOrder(_id);
       return json({ message: res?.message });
     }
 
@@ -67,8 +95,8 @@ export default function Orders() {
   return (
     <div className="font-sans bg-[#1d212c] w-screen">
       <div className="flex flex-row justify-around mx-10">
-        <MenuTable />
-        <MenuForm />
+        <OrderTable />
+        <OrderForm />
       </div>
     </div>
   );

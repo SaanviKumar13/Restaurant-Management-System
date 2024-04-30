@@ -1,7 +1,11 @@
-import MenuForm from "@/components/Menu/EditMenu";
-import MenuTable from "@/components/Menu/MenuTable";
+import ReservationForm from "@/components/Reservations/AddReservation";
+import ReservationTable from "@/components/Reservations/ReservationTable";
 import { toast } from "@/components/ui/use-toast";
-import { addMenuItem, deleteMenuItem, fetchMenu } from "@/utils/api.server";
+import {
+  addReservation,
+  deleteReservation,
+  fetchReservations,
+} from "@/utils/api.server";
 import {
   ActionFunction,
   LoaderFunction,
@@ -19,29 +23,38 @@ type ActionData = {
 export const meta: MetaFunction = () => {
   return [
     { title: "Diner | Reservations" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Add Reservations" },
   ];
 };
 
 export const loader: LoaderFunction = async () => {
-  const res = await fetchMenu();
+  const res = await fetchReservations();
   return json({ menu: res });
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const _action = formData.get("_action");
+
   switch (_action) {
     case "additem": {
       const body = Object.fromEntries(formData.entries());
       const { _action, ...newBody } = body;
-      const res = await addMenuItem(newBody);
-      return json({ message: res.message });
+      const newTableId = parseInt(newBody.table_id as string, 10);
+      const reservationTimeValue = newBody.reservation_time;
+      const updatedBody = {
+        ...newBody,
+        table_id: newTableId,
+        reservation_time: reservationTimeValue,
+      };
+      console.log(updatedBody);
+      const res = await addReservation(updatedBody);
+      return json({ message: res?.message });
     }
     case "deleteitem": {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
-      const res = await deleteMenuItem(_id);
+      const res = await deleteReservation(_id);
       return json({ message: res?.message });
     }
 
@@ -67,8 +80,8 @@ export default function Reservations() {
   return (
     <div className="font-sans bg-[#1d212c] w-screen">
       <div className="flex flex-row justify-around mx-10">
-        <MenuTable />
-        <MenuForm />
+        <ReservationTable />
+        <ReservationForm />
       </div>
     </div>
   );

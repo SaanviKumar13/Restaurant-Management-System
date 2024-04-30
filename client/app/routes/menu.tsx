@@ -36,7 +36,7 @@ export const action: ActionFunction = async ({ request }) => {
       const body = Object.fromEntries(formData.entries());
       const { _action, ...newBody } = body;
       const res = await addMenuItem(newBody);
-      return json({ message: res.message });
+      return json({ message: res?.message });
     }
     case "deleteitem": {
       const body = Object.fromEntries(formData.entries());

@@ -315,13 +315,7 @@ const inventorySchema = z.object({
   name: z.string(),
   unit_price: z.number().positive(),
   category: z.string(),
-  supplier_id: z.number().int().positive(),
-  expiry_date: z.string().nullable(),
-  purchase_date: z.string().nullable(),
-  last_updated: z.string(),
-  min_stock_level: z.number().int().positive(),
-  max_stock_level: z.number().int().positive(),
-  payment_id: z.number().int().positive(),
+  unit:z.string(),
   delivery_time: z.string(),
 });
 
@@ -352,13 +346,16 @@ app.get("/inventory/:id", async (req: Request, res: Response) => {
 
 // Add a new inventory item
 app.post("/inventory/add", validateSchema.bind(null, inventorySchema), async (req: Request, res: Response) => {
-  const { name, unit_price, category, supplier_id, expiry_date, purchase_date, last_updated, min_stock_level, max_stock_level, payment_id, delivery_time } = req.body;
+  const { name, unit_price, category, unit, delivery_time } = req.body;
   try {
     const { rows } = await query(
-      "INSERT INTO inventory (name, unit_price, category, supplier_id, expiry_date, purchase_date, last_updated, min_stock_level, max_stock_level, payment_id, delivery_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
-      [name, unit_price, category, supplier_id, expiry_date, purchase_date, last_updated, min_stock_level, max_stock_level, payment_id, delivery_time]
+      "INSERT INTO inventory (name, unit_price , unit , category, delivery_time) VALUES ($1, $2, $3, $4, $5)",
+      [name, unit_price, category, unit, delivery_time]
     );
-    res.status(201).json(rows[0]);
+    res.status(201).json(
+      
+      {message:"Item Added Successfully"}
+    );
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -367,11 +364,11 @@ app.post("/inventory/add", validateSchema.bind(null, inventorySchema), async (re
 // Update an inventory item by its ID
 app.put("/inventory/update/:id", validateSchema.bind(null, inventorySchema), async (req: Request, res: Response) => {
   const inventoryId = req.params.id;
-  const { name, unit_price, category, supplier_id, expiry_date, purchase_date, last_updated, min_stock_level, max_stock_level, payment_id, delivery_time } = req.body;
+  const { name, unit_price, category, supplier_id, expiry_date, purchase_date, min_stock_level, max_stock_level, payment_id, delivery_time } = req.body;
   try {
     const { rows } = await query(
-      "UPDATE inventory SET name = $1, unit_price = $2, category = $3, supplier_id = $4, expiry_date = $5, purchase_date = $6, last_updated = $7, min_stock_level = $8, max_stock_level = $9, payment_id = $10, delivery_time = $11 WHERE inventory_id = $12 RETURNING *",
-      [name, unit_price, category, supplier_id, expiry_date, purchase_date, last_updated, min_stock_level, max_stock_level, payment_id, delivery_time, inventoryId]
+      "UPDATE inventory SET name = $1, unit_price = $2, category = $3, supplier_id = $4, expiry_date = $5, purchase_date = $6, min_stock_level = $7, max_stock_level = $9, payment_id = $10, delivery_time = $11 WHERE inventory_id = $12 RETURNING *",
+      [name, unit_price, category, supplier_id, expiry_date, purchase_date, min_stock_level, max_stock_level, payment_id, delivery_time, inventoryId]
     );
     if (rows.length === 0) {
       res.status(404).json({ error: "Inventory item not found" });
