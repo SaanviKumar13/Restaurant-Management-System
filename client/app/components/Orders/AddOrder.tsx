@@ -27,7 +27,7 @@ const OrderForm = () => {
   return (
     <div className="w-[30vw] mt-10 h-fit py-4 bg-[#141720] rounded-md text-white">
       <div className="flex flex-col items-center gap-2">
-        <h1 className="text-xl lg:text-2xl">Add New Reservation</h1>
+        <h1 className="text-xl lg:text-2xl">Add New Order</h1>
         <div>
           <form
             action={"/orders"}
@@ -89,7 +89,7 @@ const OrderForm = () => {
               value="additem"
               className="bg-purple-100 ml-2"
             >
-              Add Reservation
+              Add Order
             </Button>
           </form>
         </div>
