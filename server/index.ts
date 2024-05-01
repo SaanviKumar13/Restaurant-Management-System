@@ -76,6 +76,7 @@ const orderSchema = z.object({
     quantity: z.number().int().positive(),
     price: z.number().positive(),
   })),
+  type:z.string(),
   total_price: z.number().positive(),
   status: z.string(),
 });
@@ -115,8 +116,8 @@ app.get("/api/orders/:id", async (req: Request, res: Response) => {
 app.post("/api/orders/add", validateOrderSchema, async (req: Request, res: Response) => {
   const orderData = req.body;
   try {
-    await query('INSERT INTO orders (customer_name, items, total_price, status) VALUES ($1, $2, $3, $4)',
-      [orderData.customer_name, JSON.stringify(orderData.items), orderData.total_price, orderData.status]);
+    await query('INSERT INTO orders (customer_name, items, total_price, status, type) VALUES ($1, $2, $3, $4, $5)',
+      [orderData.customer_name, JSON.stringify(orderData.items), orderData.total_price, orderData.status, orderData.type]);
     res.status(201).json({ message: 'Order placed successfully' });
   } catch (error:any) {
     res.status(500).json({ error: error.message});

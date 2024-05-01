@@ -40,7 +40,12 @@ const OrderForm = () => {
               name="customer_name"
               className="m-2 w-48"
             />
-
+            <Input
+              type="text"
+              placeholder="Type"
+              name="type"
+              className="m-2 w-48"
+            />
             <Input
               type="text"
               placeholder="Total Amount"

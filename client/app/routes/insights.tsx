@@ -1,41 +1,39 @@
-import { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
 export default function Insights() {
   const salesTrendsData = [
     ["Month", "Sales"],
-    ["Jan", 1000],
-    ["Feb", 1500],
-    ["Mar", 1200],
-    ["Apr", 1800],
-    ["May", 2000],
-    ["Jun", 1600],
+    ["Jan", 3000],
+    ["Feb", 4000],
+    ["Mar", 3500],
+    ["Apr", 4000],
+    ["May", 4500],
+    ["Jun", 4000],
   ];
 
   const topSellingItemsData = [
     ["Item", "Quantity Sold"],
-    ["Pizza", 200],
-    ["Burger", 150],
-    ["Pasta", 120],
-    ["Salad", 100],
+    ["Pizza", 40],
+    ["Burger", 30],
+    ["Pasta", 20],
+    ["Salad", 10],
   ];
 
   const customerAnalysisData = [
     ["Gender", "Percentage"],
     ["Male", 60],
-    ["Female", 35],
-    ["Others", 5],
+    ["Female", 40],
   ];
 
   const orderAnalysisData = [
     ["Day", "Orders"],
-    ["Mon", 50],
-    ["Tue", 60],
-    ["Wed", 70],
-    ["Thu", 65],
-    ["Fri", 80],
-    ["Sat", 90],
-    ["Sun", 85],
+    ["Mon", 350],
+    ["Tue", 400],
+    ["Wed", 450],
+    ["Thu", 425],
+    ["Fri", 500],
+    ["Sat", 550],
+    ["Sun", 525],
   ];
 
   const revenueAnalysisData = [

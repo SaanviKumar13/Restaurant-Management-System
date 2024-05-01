@@ -1,7 +1,11 @@
-import MenuForm from "@/components/Menu/EditMenu";
-import MenuTable from "@/components/Menu/MenuTable";
+import EmployeeForm from "@/components/Employees/AddEmployee";
+import EmployeeTable from "@/components/Employees/EmployeeTable";
 import { toast } from "@/components/ui/use-toast";
-import { addMenuItem, deleteMenuItem, fetchMenu } from "@/utils/api.server";
+import {
+  addEmployee,
+  deleteEmployee,
+  fetchEmployees,
+} from "@/utils/api.server";
 import {
   ActionFunction,
   LoaderFunction,
@@ -24,7 +28,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  const res = await fetchMenu();
+  const res = await fetchEmployees();
   return json({ menu: res });
 };
 
@@ -35,13 +39,18 @@ export const action: ActionFunction = async ({ request }) => {
     case "additem": {
       const body = Object.fromEntries(formData.entries());
       const { _action, ...newBody } = body;
-      const res = await addMenuItem(newBody);
-      return json({ message: res.message });
+      const transformedBody = {
+        ...newBody,
+        salary: Number(newBody.salary),
+      };
+      const res = await addEmployee(transformedBody);
+
+      return json({ message: res?.message });
     }
     case "deleteitem": {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
-      const res = await deleteMenuItem(_id);
+      const res = await deleteEmployee(_id);
       return json({ message: res?.message });
     }
 
@@ -67,8 +76,8 @@ export default function Employees() {
   return (
     <div className="font-sans bg-[#1d212c] w-screen">
       <div className="flex flex-row justify-around mx-10">
-        <MenuTable />
-        <MenuForm />
+        <EmployeeTable />
+        <EmployeeForm />
       </div>
     </div>
   );

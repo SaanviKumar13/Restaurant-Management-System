@@ -38,16 +38,16 @@ const links = [
     href: "/employees",
     logo: <UsersRound className="text-purple-200" />,
   },
-  {
-    name: "Suppliers",
-    href: "/suppliers",
-    logo: <UserCog className="text-purple-200" />,
-  },
-  {
-    name: "Transactions",
-    href: "/transactions",
-    logo: <IndianRupee className="text-purple-200" />,
-  },
+  // {
+  //   name: "Suppliers",
+  //   href: "/suppliers",
+  //   logo: <UserCog className="text-purple-200" />,
+  // },
+  // {
+  //   name: "Transactions",
+  //   href: "/transactions",
+  //   logo: <IndianRupee className="text-purple-200" />,
+  // },
   {
     name: "Insights",
     href: "/insights",
