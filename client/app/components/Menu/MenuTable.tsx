@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { Delete, Filter } from "lucide-react";
 import { Input } from "../ui/input";
 import { useLoaderData } from "@remix-run/react";
+import EditableText from "../EditableText";
 
 type MenuItem = {
   menu_id: number;
@@ -110,10 +111,38 @@ function MenuTable() {
         <TableBody>
           {filteredItems.map((item: MenuItem) => (
             <TableRow key={item.menu_id}>
-              <TableCell className="font-medium">{item.item_name}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{item.meal_type}</TableCell>
-              <TableCell className="text-right">{item.price}</TableCell>
+              <TableCell className="font-medium">
+                <EditableText
+                  initialText={item.item_name}
+                  action="/menu"
+                  name="item_name"
+                  _id={item.menu_id}
+                />
+              </TableCell>
+              <TableCell>
+                <EditableText
+                  initialText={item.description}
+                  action="/menu"
+                  name="description"
+                  _id={item.menu_id}
+                />
+              </TableCell>
+              <TableCell className="w-32">
+                <EditableText
+                  initialText={item.meal_type}
+                  action="/menu"
+                  name="meal_type"
+                  _id={item.menu_id}
+                />
+              </TableCell>
+              <TableCell className="text-right">
+                <EditableText
+                  initialText={item.price}
+                  action="/menu"
+                  name="price"
+                  _id={item.menu_id}
+                />
+              </TableCell>
               <TableCell>
                 <form action="/menu" method="post">
                   <Button

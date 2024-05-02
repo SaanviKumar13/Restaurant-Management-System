@@ -1,7 +1,12 @@
 import MenuForm from "@/components/Menu/EditMenu";
 import MenuTable from "@/components/Menu/MenuTable";
 import { toast } from "@/components/ui/use-toast";
-import { addMenuItem, deleteMenuItem, fetchMenu } from "@/utils/api.server";
+import {
+  addMenuItem,
+  deleteMenuItem,
+  fetchMenu,
+  updateMenuItem,
+} from "@/utils/api.server";
 import {
   ActionFunction,
   LoaderFunction,
@@ -42,6 +47,12 @@ export const action: ActionFunction = async ({ request }) => {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
       const res = await deleteMenuItem(_id);
+      return json({ message: res?.message });
+    }
+    case "updateitem": {
+      const body = Object.fromEntries(formData.entries());
+      const { _id, _action, ...newBody } = body;
+      const res = await updateMenuItem(_id, newBody);
       return json({ message: res?.message });
     }
 

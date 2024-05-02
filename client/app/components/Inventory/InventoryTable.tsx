@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { Delete, Filter } from "lucide-react";
 import { Input } from "../ui/input";
 import { useLoaderData } from "@remix-run/react";
+import EditableText from "../EditableText";
 
 type InventoryType = {
   inventory_id: number;
@@ -44,10 +45,39 @@ function InventoryTable() {
         <TableBody>
           {items.map((item: InventoryType) => (
             <TableRow key={item.inventory_id}>
-              <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell>{item.category}</TableCell>
-              <TableCell>{item.unit_price}</TableCell>
-              <TableCell className="text-right">{item.unit}</TableCell>
+              <TableCell className="font-medium">
+                <EditableText
+                  initialText={item.name}
+                  action="/inventory"
+                  name="name"
+                  _id={item.inventory_id}
+                />
+              </TableCell>
+              <TableCell>
+                <EditableText
+                  initialText={item.category}
+                  action="/inventory"
+                  name="category"
+                  _id={item.inventory_id}
+                />
+              </TableCell>
+              <TableCell>
+                {" "}
+                <EditableText
+                  initialText={item.unit_price}
+                  action="/inventory"
+                  name="unit_price"
+                  _id={item.inventory_id}
+                />
+              </TableCell>
+              <TableCell className="text-right">
+                <EditableText
+                  initialText={item.unit}
+                  action="/inventory"
+                  name="unit"
+                  _id={item.inventory_id}
+                />
+              </TableCell>
               <TableCell>
                 <form action="/inventory" method="post">
                   <Button

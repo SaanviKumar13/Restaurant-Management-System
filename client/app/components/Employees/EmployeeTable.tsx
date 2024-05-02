@@ -13,6 +13,7 @@ import { Delete } from "lucide-react";
 import { Input } from "../ui/input";
 import { useLoaderData } from "@remix-run/react";
 import { formatDate } from "date-fns";
+import EditableText from "../EditableText";
 
 type EmployeeType = {
   employee_id: number;
@@ -49,16 +50,59 @@ function EmployeeTable() {
           {items.map((item: EmployeeType) => (
             <TableRow key={item.employee_id}>
               <TableCell className="font-medium">
-                {item.employee_name}
+                <EditableText
+                  initialText={item.employee_name}
+                  action="/employees"
+                  name="employee_name"
+                  _id={item.employee_id}
+                />
               </TableCell>
-              <TableCell>{item.employee_role}</TableCell>
-              <TableCell>{item.gender}</TableCell>
-              <TableCell>{item.salary}</TableCell>
+              <TableCell>
+                <EditableText
+                  initialText={item.employee_role}
+                  action="/employees"
+                  name="employee_role"
+                  _id={item.employee_id}
+                />
+              </TableCell>
+              <TableCell>
+                <EditableText
+                  initialText={item.gender}
+                  action="/employees"
+                  name="gender"
+                  _id={item.employee_id}
+                />
+              </TableCell>
+              <TableCell>
+                {" "}
+                <EditableText
+                  initialText={item.salary}
+                  action="/employees"
+                  name="salary"
+                  _id={item.employee_id}
+                />
+              </TableCell>
               <TableCell className="text-right">
                 {formatDate(item.dob, "PPP")}
               </TableCell>
-              <TableCell className="text-right">{item.address}</TableCell>
-              <TableCell className="text-right">{item.phone_number}</TableCell>
+              <TableCell className="text-right">
+                {" "}
+                <EditableText
+                  initialText={item.address}
+                  action="/employees"
+                  name="address"
+                  _id={item.employee_id}
+                />
+              </TableCell>
+              <TableCell className="text-right">
+                {" "}
+                <EditableText
+                  initialText={item.phone_number}
+                  action="/employees"
+                  name="phone_number"
+                  _id={item.employee_id}
+                />
+              </TableCell>
               <TableCell>
                 <form action="/employees" method="post">
                   <Button

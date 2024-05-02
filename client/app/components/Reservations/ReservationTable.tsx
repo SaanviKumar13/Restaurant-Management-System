@@ -17,6 +17,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/styles";
 import { format } from "date-fns";
+import EditableText from "../EditableText";
 
 type ReservationItem = {
   reservation_id: number;
@@ -107,7 +108,12 @@ function ReservationTable() {
               <TableCell>{formatTime(item.reservation_time)}</TableCell>
               <TableCell>{formatDate(item.reservation_date)}</TableCell>
               <TableCell className="text-right">
-                {item.number_of_people}
+                <EditableText
+                  initialText={item.number_of_people}
+                  action="/reservations"
+                  name="number_of_people"
+                  _id={item.reservation_id}
+                />
               </TableCell>
               <TableCell className="text-right">{item.table_id}</TableCell>
               <TableCell>

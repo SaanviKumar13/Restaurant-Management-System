@@ -10,6 +10,7 @@ import {
   deleteMenuItem,
   fetchInventory,
   fetchMenu,
+  updateInventory,
 } from "@/utils/api.server";
 import {
   ActionFunction,
@@ -55,6 +56,12 @@ export const action: ActionFunction = async ({ request }) => {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
       const res = await deleteInventory(_id);
+      return json({ message: res?.message });
+    }
+    case "updateitem": {
+      const body = Object.fromEntries(formData.entries());
+      const { _id, _action, ...newBody } = body;
+      const res = await updateInventory(_id, newBody);
       return json({ message: res?.message });
     }
 

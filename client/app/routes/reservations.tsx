@@ -5,6 +5,7 @@ import {
   addReservation,
   deleteReservation,
   fetchReservations,
+  updateReservation,
 } from "@/utils/api.server";
 import {
   ActionFunction,
@@ -55,6 +56,12 @@ export const action: ActionFunction = async ({ request }) => {
       const body = Object.fromEntries(formData.entries());
       const { _id } = body;
       const res = await deleteReservation(_id);
+      return json({ message: res?.message });
+    }
+    case "updateitem": {
+      const body = Object.fromEntries(formData.entries());
+      const { _id, _action, ...newBody } = body;
+      const res = await updateReservation(_id, newBody);
       return json({ message: res?.message });
     }
 

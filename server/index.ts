@@ -29,7 +29,7 @@ const validateMenuSchema = (req: Request, res: Response, next: () => void) => {
 
 app.get("/api/menu", async (req: Request, res: Response) => {
   try {
-    const { rows } = await query('SELECT * FROM menu', []);
+    const { rows } = await query('SELECT * FROM menu ORDER BY menu_id DESC', []);
     res.status(200).json(rows);
   } catch (error:any) {
     res.status(500).json({ error: error.message });
@@ -46,11 +46,31 @@ app.post("/api/menu/add", async (req: Request, res: Response) => {
   }
 });
 
-app.put("/api/menu/:id", validateMenuSchema, async (req: Request, res: Response) => {
+app.put("/api/menu/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const { description, meal_type, item_name, price } = req.body;
+  const updateParams: any[] = [];
+  const setExpressions: string[] = [];
+
+  // Check for each field and add to SET expressions and parameters array if they exist
+  if (description !== undefined) {
+    setExpressions.push('description = $' + (updateParams.push(description)));
+  }
+  if (meal_type !== undefined) {
+    setExpressions.push('meal_type = $' + (updateParams.push(meal_type)));
+  }
+  if (item_name !== undefined) {
+    setExpressions.push('item_name = $' + (updateParams.push(item_name)));
+  }
+  if (price !== undefined) {
+    setExpressions.push('price = $' + (updateParams.push(price)));
+  }
+
+  // Construct the dynamic SQL query
+  const updateQuery = `UPDATE menu SET ${setExpressions.join(', ')} WHERE menu_id = $${updateParams.push(id)}`;
+
   try {
-    await query('UPDATE menu SET description = $1, meal_type = $2, item_name = $3, price = $4 WHERE menu_id = $5', [description, meal_type, item_name, price, id]);
+    await query(updateQuery, updateParams);
     res.status(200).json({ message: 'Menu item updated successfully' });
   } catch (error:any) {
     res.status(500).json({ error: error.message });
@@ -212,7 +232,7 @@ const reservationSchema = z.object({
 
 app.get("/api/reservations", async (req: Request, res: Response) => {
   try {
-    const { rows } = await query('SELECT * FROM reservations', []);
+    const { rows } = await query('SELECT * FROM reservations ORDER BY reservation_id DESC', []);
     res.status(200).json(rows);
   } catch (error:any) {
     res.status(500).json({ error: error.message });
@@ -229,16 +249,24 @@ app.post("/api/reservations/add", validateSchema.bind(null, reservationSchema), 
   }
 });
 
-app.put("/api/reservations/update/:id", validateSchema.bind(null, reservationSchema), async (req: Request, res: Response) => {
+app.put("/api/reservations/update/:id",  async (req: Request, res: Response) => {
   const id = req.params.id;
-  const { customer_name, reservation_date, reservation_time, table_id } = req.body;
+  const updateValues: { [key: string]: any } = req.body;
+  const columns = Object.keys(updateValues);
+  const values = Object.values(updateValues);
+
+  // Construct the SET clause dynamically
+  const setClause = columns.map((column, index) => `${column} = $${index + 1}`).join(', ');
+
   try {
-    await query('UPDATE reservations SET customer_name = $1, reservation_date = $2, reservation_time = $3, table_id = $4 WHERE reservation_id = $5', [customer_name, reservation_date, reservation_time, table_id, id]);
+    // Use the constructed SET clause in the UPDATE query
+    await query(`UPDATE reservations SET ${setClause} WHERE reservation_id = $${columns.length + 1}`, [...values, id]);
     res.status(200).json({ message: 'Reservation updated successfully' });
   } catch (error:any) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 app.delete("/api/reservations/delete/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -264,7 +292,7 @@ const employeeSchema = z.object({
 // Get all employees
 app.get("/employees", async (req: Request, res: Response) => {
   try {
-    const { rows } = await query("SELECT * FROM employees", []);
+    const { rows } = await query("SELECT * FROM employees ORDER BY employee_id DESC", []);
     res.status(200).json(rows);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
@@ -286,19 +314,23 @@ app.post("/employees/add", validateSchema.bind(null, employeeSchema), async (req
 });
 
 // Update an employee by ID
-app.put("/employees/update/:id", validateSchema.bind(null, employeeSchema), async (req: Request, res: Response) => {
+app.put("/employees/update/:id", async (req: Request, res: Response) => {
   const employeeId = req.params.id;
-  const { employee_name, employee_role, address, gender, phone_number, dob, salary } = req.body;
+  const updates = req.body;
+  const updateKeys = Object.keys(updates);
+  const updateValues = Object.values(updates);
+  const setClause = updateKeys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+  const queryText = `UPDATE employees SET ${setClause} WHERE employee_id = $${updateValues.length + 1}`;
+
   try {
-    await query(
-      "UPDATE employees SET employee_name = $1, employee_role = $2, address = $3, gender = $4, phone_number = $5, dob = $6, salary = $7 WHERE employee_id = $8",
-      [employee_name, employee_role, address, gender, phone_number, dob, salary, employeeId]
-    );
+    const queryParams = [...updateValues, employeeId];
+    await query(queryText, queryParams);
     res.status(200).json({ message: "Employee updated successfully" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Delete an employee by ID
 app.delete("/employees/delete/:id", async (req: Request, res: Response) => {
@@ -324,7 +356,7 @@ const inventorySchema = z.object({
 // Get all inventory items
 app.get("/inventory", async (req: Request, res: Response) => {
   try {
-    const { rows } = await query("SELECT * FROM inventory", []);
+    const { rows } = await query("SELECT * FROM inventory ORDER BY inventory_id DESC", []);
     res.status(200).json(rows);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
@@ -364,13 +396,15 @@ app.post("/inventory/add", validateSchema.bind(null, inventorySchema), async (re
 });
 
 // Update an inventory item by its ID
-app.put("/inventory/update/:id", validateSchema.bind(null, inventorySchema), async (req: Request, res: Response) => {
+app.put("/inventory/update/:id", async (req: Request, res: Response) => {
   const inventoryId = req.params.id;
-  const { name, unit_price, category, supplier_id, expiry_date, purchase_date, min_stock_level, max_stock_level, payment_id, delivery_time } = req.body;
+  const updateFields = req.body;
+  const updateValues = Object.values(updateFields);
+  const updateColumns = Object.keys(updateFields).map((key, index) => `${key} = $${index + 1}`).join(', ');
   try {
     const { rows } = await query(
-      "UPDATE inventory SET name = $1, unit_price = $2, category = $3, supplier_id = $4, expiry_date = $5, purchase_date = $6, min_stock_level = $7, max_stock_level = $9, payment_id = $10, delivery_time = $11 WHERE inventory_id = $12 RETURNING *",
-      [name, unit_price, category, supplier_id, expiry_date, purchase_date, min_stock_level, max_stock_level, payment_id, delivery_time, inventoryId]
+      `UPDATE inventory SET ${updateColumns} WHERE inventory_id = $${updateValues.length + 1} RETURNING *`,
+      [...updateValues, inventoryId]
     );
     if (rows.length === 0) {
       res.status(404).json({ error: "Inventory item not found" });
@@ -381,6 +415,7 @@ app.put("/inventory/update/:id", validateSchema.bind(null, inventorySchema), asy
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Delete an inventory item by its ID
 app.delete("/inventory/delete/:id", async (req: Request, res: Response) => {

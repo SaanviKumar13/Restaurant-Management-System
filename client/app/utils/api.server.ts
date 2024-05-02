@@ -35,6 +35,7 @@ export async function addMenuItem(menuItem: any) {
 // Function to update a menu item
 export async function updateMenuItem(id: any, menuItem: any) {
   try {
+    console.log(menuItem)
     const response = await fetch(`${apiUrl}/api/menu/${id}`, {
       method: 'PUT',
       headers: {
