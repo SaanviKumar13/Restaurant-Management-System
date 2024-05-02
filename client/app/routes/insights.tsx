@@ -61,7 +61,9 @@ export default function Insights() {
 
   return (
     <div className="font-sans bg-[#1d212c] w-screen p-10">
-      <h1 className="text-3xl font-bold mb-4">Insights</h1>
+      <h1 className="text-4xl mb-6 text-purple-200 font-heading w-[60vw] text-center font-bold">
+        Insights
+      </h1>
 
       {/* Sales Trends */}
       <div className="mb-8">

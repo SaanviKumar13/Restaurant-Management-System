@@ -6,6 +6,22 @@
 /*
   Theme variables
 */
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #151319;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #1d1c1c;
+  border-radius: 10px;
+  border: 1px solid #151319;
+}
+
 @layer base {
   :root {
     /* --background: 0 0% 100%;

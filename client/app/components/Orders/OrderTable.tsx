@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Button } from "../ui/button";
-import { Delete, Filter } from "lucide-react";
+import { Check, Delete, Filter } from "lucide-react";
 import { Input } from "../ui/input";
 import { useLoaderData } from "@remix-run/react";
 
@@ -48,7 +48,7 @@ function OrderTable() {
   });
 
   return (
-    <Table className="w-[40vw] mt-10">
+    <Table className="w-[45vw] mt-10">
       <TableCaption>Diner Orders</TableCaption>
       <TableHeader>
         <TableRow>
@@ -175,6 +175,25 @@ function OrderTable() {
                   className="text-purple-500 ml-2"
                 >
                   <Delete />
+                  <Input
+                    type="_id"
+                    name="_id"
+                    value={order.id}
+                    className="m-2 w-48 hidden"
+                    readOnly
+                  />
+                </Button>
+              </form>
+            </TableCell>
+            <TableCell>
+              <form action="/orders" method="post">
+                <Button
+                  name="_action"
+                  type="submit"
+                  value="markcomplete"
+                  className="text-purple-500 ml-2"
+                >
+                  <Check />
                   <Input
                     type="_id"
                     name="_id"

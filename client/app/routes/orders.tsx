@@ -1,7 +1,12 @@
 import OrderForm from "@/components/Orders/AddOrder";
 import OrderTable from "@/components/Orders/OrderTable";
 import { toast } from "@/components/ui/use-toast";
-import { addOrder, deleteOrder, fetchOrders } from "@/utils/api.server";
+import {
+  addOrder,
+  deleteOrder,
+  fetchOrders,
+  updateOrder,
+} from "@/utils/api.server";
 import {
   ActionFunction,
   LoaderFunction,
@@ -72,6 +77,13 @@ export const action: ActionFunction = async ({ request }) => {
       const res = await deleteOrder(_id);
       return json({ message: res?.message });
     }
+    case "markcomplete": {
+      const body = Object.fromEntries(formData.entries());
+      const { _id } = body;
+      const status = { status: "completed" };
+      const res = await updateOrder(_id, status);
+      return json({ message: res?.message });
+    }
 
     default:
       return json({ error: "Invalid action" }, { status: 400 });
@@ -94,6 +106,9 @@ export default function Orders() {
   }, [actionData]);
   return (
     <div className="font-sans bg-[#1d212c] w-screen p-10">
+      <h1 className="text-4xl mb-6 text-purple-200 font-heading w-[60vw] text-center font-bold">
+        Orders
+      </h1>
       <div className="flex flex-row justify-around mx-10">
         <OrderTable />
         <OrderForm />

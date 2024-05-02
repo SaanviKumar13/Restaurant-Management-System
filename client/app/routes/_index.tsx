@@ -50,8 +50,8 @@ const features = [
 
 export default function AdminHomePage() {
   return (
-    <div className="bg-[#1d212c] w-screen text-white flex flex-col justify-center items-center min-h-screen h-full p-10 font-sans">
-      <h1 className="text-6xl mb-6 font-heading w-[60vw] text-center font-semibold">
+    <div className="bg-[url('bg.svg')] bg-cover bg-no-repeat w-screen text-white flex flex-col justify-center items-center min-h-screen h-full p-10 font-sans">
+      <h1 className="text-6xl mb-6 font-heading w-[60vw] text-center text-purple-200 font-semibold">
         Diner
         <br /> A Restaurant Management System
       </h1>

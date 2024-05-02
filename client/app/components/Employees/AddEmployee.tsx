@@ -5,7 +5,9 @@ const EmployeeForm = () => {
   return (
     <div className="w-[20vw] px-0 mt-10 h-fit py-6 bg-[#141720] rounded-md text-white">
       <div className="flex flex-col items-center gap-2">
-        <h1 className="text-xl lg:text-2xl">Add Employee</h1>
+        <h1 className="text-xl lg:text-2xl font-heading font-semibold">
+          Add Employee
+        </h1>
         <div>
           <form
             action={"/employees"}
@@ -54,14 +56,14 @@ const EmployeeForm = () => {
               name="salary"
               className="m-0 w-48"
             />
-            <Button
+            <button
               name="_action"
               type="submit"
               value="additem"
-              className="bg-purple-100 ml-2"
+              className="px-4 z-30 py-2 bg-purple-400 rounded-md text-white relative font-semibold font-sans after:-z-20 after:absolute after:h-1 after:w-1 after:bg-purple-800 after:left-5 overflow-hidden after:bottom-0 after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700 transition-all duration-700"
             >
               Add Employee
-            </Button>
+            </button>
           </form>
         </div>
       </div>

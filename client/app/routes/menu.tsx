@@ -66,6 +66,9 @@ export default function Menu() {
   }, [actionData]);
   return (
     <div className="font-sans bg-[#1d212c] w-screen p-10">
+      <h1 className="text-4xl mb-6 text-purple-200 font-heading w-[60vw] text-center font-bold">
+        Menu
+      </h1>
       <div className="flex flex-row justify-around mx-10">
         <MenuTable />
         <MenuForm />

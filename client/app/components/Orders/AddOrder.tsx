@@ -27,7 +27,9 @@ const OrderForm = () => {
   return (
     <div className="w-[30vw] mt-10 h-fit py-4 bg-[#141720] rounded-md text-white">
       <div className="flex flex-col items-center gap-2">
-        <h1 className="text-xl lg:text-2xl">Add New Order</h1>
+        <h1 className="text-xl lg:text-2xl font-heading font-semibold">
+          Add New Order
+        </h1>
         <div>
           <form
             action={"/orders"}
@@ -81,21 +83,22 @@ const OrderForm = () => {
               name="status"
               className="m-2 w-48"
             />
-            <Button
+            <button
               type="button"
               onClick={handleAddItem}
-              className="bg-purple-100 ml-2"
+              className="px-4 z-30 py-2 bg-purple-400 rounded-md text-white relative font-semibold font-sans after:-z-20 after:absolute after:h-1 after:w-1 after:bg-purple-800 after:left-5 overflow-hidden after:bottom-0 after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700 transition-all duration-700"
             >
               Add Item
-            </Button>
-            <Button
+            </button>
+
+            <button
               name="_action"
               type="submit"
               value="additem"
-              className="bg-purple-100 ml-2"
+              className="px-4 z-30 py-2 bg-purple-400 rounded-md text-white relative font-semibold font-sans after:-z-20 after:absolute after:h-1 after:w-1 after:bg-purple-800 after:left-5 overflow-hidden after:bottom-0 after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700 transition-all duration-700"
             >
               Add Order
-            </Button>
+            </button>
           </form>
         </div>
       </div>

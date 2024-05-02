@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-[#141720]">
+      <body className="bg-[#12151c]">
         <Toaster />
         <div className="flex flex-row">
           <Sidebar />
