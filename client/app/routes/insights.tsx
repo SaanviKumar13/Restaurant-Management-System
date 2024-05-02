@@ -1,4 +1,12 @@
+import { MetaFunction } from "@remix-run/react";
 import { Chart } from "react-google-charts";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Diner | Insights" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
+};
 
 export default function Insights() {
   const salesTrendsData = [
@@ -52,7 +60,7 @@ export default function Insights() {
   ];
 
   return (
-    <div className="font-sans bg-[#1d212c] w-screen p-8">
+    <div className="font-sans bg-[#1d212c] w-screen p-10">
       <h1 className="text-3xl font-bold mb-4">Insights</h1>
 
       {/* Sales Trends */}
@@ -138,22 +146,6 @@ export default function Insights() {
             title: "Revenue by Channel",
             hAxis: { title: "Channel", titleTextStyle: { color: "#333" } },
             vAxis: { title: "Revenue", minValue: 0 },
-            chartArea: { width: "80%", height: "70%" },
-          }}
-        />
-      </div>
-
-      {/* Feedback and Reviews */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-2">Feedback and Reviews</h2>
-        <Chart
-          width={"100%"}
-          height={"300px"}
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={feedbackAndReviewsData}
-          options={{
-            title: "Customer Feedback",
             chartArea: { width: "80%", height: "70%" },
           }}
         />

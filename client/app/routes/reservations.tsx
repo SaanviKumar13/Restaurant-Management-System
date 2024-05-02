@@ -78,7 +78,7 @@ export default function Reservations() {
     }
   }, [actionData]);
   return (
-    <div className="font-sans bg-[#1d212c] w-screen">
+    <div className="font-sans bg-[#1d212c] w-screen p-10">
       <div className="flex flex-row justify-around mx-10">
         <ReservationTable />
         <ReservationForm />

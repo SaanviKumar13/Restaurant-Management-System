@@ -206,6 +206,7 @@ const reservationSchema = z.object({
   customer_name: z.string(),
   reservation_date: z.string(), 
   reservation_time: z.string(), 
+  number_of_people:z.string(),
   table_id: z.number().int().positive(),
 });
 
@@ -219,9 +220,9 @@ app.get("/api/reservations", async (req: Request, res: Response) => {
 });
 
 app.post("/api/reservations/add", validateSchema.bind(null, reservationSchema), async (req: Request, res: Response) => {
-  const { customer_name, reservation_date, reservation_time, table_id } = req.body;
+  const { customer_name, reservation_date, reservation_time, table_id, number_of_people} = req.body;
   try {
-    await query('INSERT INTO reservations (customer_name, reservation_date, reservation_time, table_id) VALUES ($1, $2, $3, $4)', [customer_name, reservation_date, reservation_time, table_id]);
+    await query('INSERT INTO reservations (customer_name, reservation_date, reservation_time, table_id, number_of_people) VALUES ($1, $2, $3, $4, $5)', [customer_name, reservation_date, reservation_time, table_id, number_of_people]);
     res.status(201).json({ message: 'Reservation added successfully' });
   } catch (error:any) {
     res.status(500).json({ error: error.message });
@@ -637,6 +638,49 @@ app.delete("/suppliers/delete/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// // Inventory Analysis Endpoint
+// app.get('/inventory-analysis', async (req: Request, res: Response) => {
+//   try {
+//     const results = await query('SELECT category, COUNT(*) AS count, SUM(unit_price) AS total_price FROM inventory GROUP BY category',[]);
+//     const inventoryData = results.map((row: { category: any; count: any; total_price: any; }) => ({
+//       category: row.category,
+//       count: row.count,
+//       total_price: row.total_price
+//     }));
+//     res.json(inventoryData);
+//   } catch (error: any) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// // Order Analysis Endpoint
+// app.get('/order-analysis', async (req: Request, res: Response) => {
+//   try {
+//     const results = await query('SELECT DAYNAME(order_date) AS day, COUNT(*) AS orders FROM orders GROUP BY DAYNAME(order_date) ORDER BY FIELD(DAYNAME(order_date), "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")',[]);
+//     const orderData = results.map((row: { day: any; orders: any; }) => ({
+//       day: row.day,
+//       orders: row.orders
+//     }));
+//     res.json(orderData);
+//   } catch (error: any) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// // Reservation Analysis Endpoint
+// app.get('/reservation-analysis', async (req: Request, res: Response) => {
+//   try {
+//     const results = await query('SELECT DAYNAME(reservation_date) AS day, COUNT(*) AS reservations FROM reservations GROUP BY DAYNAME(reservation_date) ORDER BY FIELD(DAYNAME(reservation_date), "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")',[]);
+//     const reservationData = results.map((row: { day: any; reservations: any; }) => ({
+//       day: row.day,
+//       reservations: row.reservations
+//     }));
+//     res.json(reservationData);
+//   } catch (error: any) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

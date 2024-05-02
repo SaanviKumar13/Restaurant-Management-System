@@ -9,6 +9,7 @@ import {
 import stylesheet from "./globals.css";
 import Sidebar from "./components/Sidebar";
 import { Toaster } from "./components/ui/toaster";
+import Footer from "./components/Footer";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
@@ -22,13 +23,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-[#141720]">
         <Toaster />
         <div className="flex flex-row">
           <Sidebar />
           {children}
         </div>
-
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -1,4 +1,6 @@
+import { Card } from "@/components/Card";
 import type { MetaFunction } from "@remix-run/node";
+import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,44 +12,56 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const features = [
+  {
+    id: 1,
+    name: "Insights",
+    description: "Provides Insights from customer orders to boost sales.",
+    href: "/insights",
+  },
+  {
+    id: 2,
+    name: "Menu Customization",
+    description:
+      "Customize menus with ease, including adding, removing, and updating items.",
+    href: "/menu",
+  },
+  {
+    id: 3,
+    name: "Order Management",
+    description:
+      "Streamline order taking and processing for both dine-in and takeout orders.",
+    href: "/orders",
+  },
+  {
+    id: 4,
+    name: "Inventory Tracking",
+    description:
+      "Track inventory levels and receive alerts for low stock items.",
+    href: "/inventory",
+  },
+  {
+    id: 5,
+    name: "Staff Management",
+    description: "Manage employee schedules, roles, and performance.",
+    href: "/employees",
+  },
+];
+
 export default function AdminHomePage() {
   return (
-    <div className="bg-[#1d212c] w-screen text-white flex flex-col justify-center items-center h-screen font-sans">
-      <h1 className="text-4xl mb-6">
-        Welcome to the Restaurant Management System
+    <div className="bg-[#1d212c] w-screen text-white flex flex-col justify-center items-center min-h-screen h-full p-10 font-sans">
+      <h1 className="text-6xl mb-6 font-heading w-[60vw] text-center font-semibold">
+        Diner
+        <br /> A Restaurant Management System
       </h1>
-      <p className="text-lg text-center max-w-md mb-10">
-        Manage your restaurant efficiently with our powerful tools and features.
-      </p>
-      <h1 className="text-purple-400 font-bold text-6xl m-2 text-left mb-3">
-        Our Features
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-950">
-        <div className="p-6 w-96 bg-purple-50 rounded-lg">
-          <h2 className="text-2xl mb-4">Orders Management</h2>
-          <p>View, process, and manage incoming orders with ease.</p>
-        </div>
-        <div className="p-6 w-96 bg-purple-50 rounded-lg">
-          <h2 className="text-2xl mb-4">Menu Management</h2>
-          <p>
-            Add, edit, and remove menu items effortlessly to keep your menu
-            up-to-date.
-          </p>
-        </div>
-        <div className="p-6 w-96 bg-purple-50 rounded-lg">
-          <h2 className="text-2xl mb-4">Inventory Management</h2>
-          <p>Track and manage your restaurant's inventory in real-time.</p>
-        </div>
-        <div className="p-6 w-96 bg-purple-50 rounded-lg">
-          <h2 className="text-2xl mb-4">Staff Management</h2>
-          <p>Manage staff schedules, roles, and payroll efficiently.</p>
-        </div>
-      </div>
-      <div className="p-6 w-96 bg-purple-50 rounded-lg">
-        <h2 className="text-2xl mb-4">Insights</h2>
-        <p>
-          Provides insigts on the menu items and customers to increase sales.
-        </p>
+
+      <div className="w-[70vw] flex flex-row flex-wrap justify-center gap-8 mt-10">
+        {features.map((feature) => (
+          <Link key={feature.id} to={feature.href}>
+            <Card {...feature} />
+          </Link>
+        ))}
       </div>
     </div>
   );

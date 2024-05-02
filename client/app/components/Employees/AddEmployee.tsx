@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 
 const EmployeeForm = () => {
   return (
-    <div className="w-[30vw] mt-10 h-fit py-4 bg-[#141720] rounded-md text-white">
+    <div className="w-[20vw] px-0 mt-10 h-fit py-6 bg-[#141720] rounded-md text-white">
       <div className="flex flex-col items-center gap-2">
         <h1 className="text-xl lg:text-2xl">Add Employee</h1>
         <div>
@@ -16,43 +16,43 @@ const EmployeeForm = () => {
               type="text"
               placeholder="Name"
               name="employee_name"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Input
               type="text"
               placeholder="Role"
               name="employee_role"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Input
               type="text"
               placeholder="Address"
               name="address"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Input
               type="text"
               placeholder="Gender"
               name="gender"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Input
               type="date"
               placeholder="Date of Birth"
               name="dob"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Input
               type="tel"
               placeholder="Phone Number"
               name="phone_number"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Input
               type="number"
               placeholder="Salary"
               name="salary"
-              className="m-2 w-48"
+              className="m-0 w-48"
             />
             <Button
               name="_action"

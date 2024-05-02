@@ -24,6 +24,7 @@ type ReservationItem = {
   reservation_date: string;
   reservation_time: string;
   table_id: number;
+  number_of_people: string;
 };
 
 function ReservationTable() {
@@ -92,6 +93,7 @@ function ReservationTable() {
                 </PopoverContent>
               </Popover>
             </TableHead>
+            <TableHead className="text-right">Number of People</TableHead>
             <TableHead className="text-right">Table Number</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
@@ -104,6 +106,9 @@ function ReservationTable() {
               </TableCell>
               <TableCell>{formatTime(item.reservation_time)}</TableCell>
               <TableCell>{formatDate(item.reservation_date)}</TableCell>
+              <TableCell className="text-right">
+                {item.number_of_people}
+              </TableCell>
               <TableCell className="text-right">{item.table_id}</TableCell>
               <TableCell>
                 <form action="/reservations" method="post">

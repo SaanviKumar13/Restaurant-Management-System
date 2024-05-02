@@ -23,7 +23,7 @@ const ReservationForm = () => {
   };
 
   return (
-    <div className="w-[30vw] mt-10 h-fit py-4 bg-[#141720] rounded-md text-white">
+    <div className="w-[20vw] mt-10 h-fit py-4 bg-[#141720] rounded-md text-white">
       <div className="flex flex-col items-center gap-2">
         <h1 className="text-xl lg:text-2xl">Add New Reservation</h1>
         <div>
@@ -67,10 +67,17 @@ const ReservationForm = () => {
             />
             <Input
               type="text"
+              placeholder="Number of People"
+              name="number_of_people"
+              className="m-2 w-48"
+            />
+            <Input
+              type="text"
               placeholder="Time"
               name="reservation_time"
               className="m-2 w-48"
             />
+
             <Input
               type="number"
               placeholder="Table Number"

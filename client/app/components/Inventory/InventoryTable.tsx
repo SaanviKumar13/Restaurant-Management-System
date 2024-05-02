@@ -35,9 +35,9 @@ function InventoryTable() {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>
-            <TableHead>Unit</TableHead>
+            <TableHead>Category</TableHead>
             <TableHead className="flex flex-row gap-3">Unit Price</TableHead>
-            <TableHead className="text-right">Category</TableHead>
+            <TableHead className="text-right">Unit</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
