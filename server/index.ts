@@ -112,7 +112,7 @@ const validateOrderSchema = (req: Request, res: Response, next: () => void) => {
 
 app.get("/api/orders", async (req: Request, res: Response) => {
   try {
-    const { rows } = await query('SELECT * FROM orders', []);
+    const { rows } = await query('SELECT * FROM orders ORDER BY id DESC', []);
     res.status(200).json(rows);
   } catch (error:any) {
     res.status(500).json({ error: error.message });

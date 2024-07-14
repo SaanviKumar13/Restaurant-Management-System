@@ -129,14 +129,6 @@ function OrderTable() {
                 >
                   Completed
                 </button>
-                <button
-                  onClick={() => {
-                    setFilterStatus("cancelled");
-                    setShowStatusOptions(false);
-                  }}
-                >
-                  Cancelled
-                </button>
               </div>
             )}
           </TableHead>
